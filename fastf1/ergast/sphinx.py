@@ -29,7 +29,7 @@ class ApiMappingDirective(Directive):
           split out from the response during flattening of the data
           (MultiResponse)
 
-        - ``:describe-dataframe:``: flat that indicates that a description of
+        - ``:describe-dataframe:``: flag that indicates that a description of
           the flattened data frame should be generated as well
     """
     required_arguments = 1
@@ -122,7 +122,7 @@ class ApiMappingDirective(Directive):
             nodes_list.append(nodes.raw(
                 "",
                 "<details><summary><a>DataFrame Description</a></summary>"
-                "DataFrame column names and dtypes for automatic type"
+                "DataFrame column names and dtypes for automatic type "
                 "casting:</br></br>",
                 format="html"
             ))
@@ -173,10 +173,7 @@ class ApiMappingDirective(Directive):
                                                    cast=False)
         # print the flattened data nicely formatted as a table (use str
         # representation of a dataframe for this)
-        # remove the last line (unnecessary info about dataframe)
-        return "\n".join(
-            str(pd.DataFrame(flat).iloc[0]).split("\n")[:-1]
-        )
+        return pd.DataFrame(flat).iloc[0].to_string()
 
 
 def setup(app):
